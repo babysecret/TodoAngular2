@@ -12,7 +12,7 @@ import {Task} from "../models/Task";
         <h2>new task add</h2>
         <form class="form-horizontal" role="form">
           <div class="form-group">
-            <input type="title" 
+            <input type="text" 
                    class="form-control" 
                    id="title" 
                    placeholder="Title"
