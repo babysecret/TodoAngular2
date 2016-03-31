@@ -3,13 +3,13 @@
  */
 
 import {Component} from 'angular2/core';
-import {TaskView} from "./components/task.view";
-import {TodoList} from "./components/todo.list";
-import {NewTask} from "./components/new.task";
+import {TaskViewComponent} from "./components/task-view.component";
+import {TodoListComponent} from "./components/todo-list.component";
+import {NewTask} from "./components/new-task.component";
 
 @Component({
     selector: 'todo-app',
-    directives: [TaskView, TodoList, NewTask],
+    directives: [TaskViewComponent, TodoListComponent, NewTask],
     template: `
         <h1>Todo application</h1>
         <div class="row">

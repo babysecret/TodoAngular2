@@ -3,6 +3,7 @@
  */
 import {Injectable} from "angular2/core";
 import {Observable} from "rxjs/Observable";
+import {Task} from "../models/Task";
 
 @Injectable()
 
@@ -12,6 +13,7 @@ export interface ITask {
     desc?:  string;
     done:   boolean;
 }
+
 export class TaskService {
 
     public   tasks:         Observable<ITask>;
@@ -22,7 +24,9 @@ export class TaskService {
     private _selectedTaskObserver;
 
     constructor() {
-        this.fakeTasks();
+
+        this.loadTasks();
+
         this.selectedTask = new Observable(
             observer =>
                 this._selectedTaskObserver = observer
@@ -35,7 +39,7 @@ export class TaskService {
     }
 
     selectTask(task: ITask) {
-        console.log("Service", task)
+        console.log("Service", task);
         this._selectedTaskObserver.next(task);
     }
 
@@ -47,7 +51,7 @@ export class TaskService {
             desc: desc,
             done: false
         });
-        this.fetch();
+        this.update();
     }
 
     doneTask(task: ITask) {
@@ -57,9 +61,9 @@ export class TaskService {
                 this._tasks[i].done = !obj.done;
             }
         });
-        this.fetch();
+        this.update();
     }
-    
+
     unDoneTask(task: ITask) {
         this.doneTask(task);
 
@@ -70,15 +74,18 @@ export class TaskService {
         this._tasks = this._tasks.filter((obj:ITask) => {
             return (task != obj)
         });
-        this.fetch();
+        this.update();
     }
-
-    fetch(){
+    /*
+     *
+     */
+    update(){
         this.sort();
+        this.updateStore();
         this._tasksObserver.next(this._tasks);
     }
 
-    sort(){
+    private sort() {
         this._tasks = this._tasks.sort((n1:Task, n2:Task) =>
             (n1.done == n2.done)
                 ? (n1.title.toUpperCase() > n2.title.toUpperCase())
@@ -87,31 +94,21 @@ export class TaskService {
     }
 
     /*
-    Additional methods
+     * Storage methods
      */
 
-    private fakeTasks() {
-        this._tasks = [
-            {
-                id:"adasdasd",
-                title:"Name1",
-                desc:"Desk3",
-                done:true
-            },
-            {
-                id:"ada123sdasd",
-                title:"Name2",
-                desc:"Desk7",
-                done:false
-            },
-            {
-                id:"adasdaqwsd",
-                title:"Name3",
-                desc:"Desk2",
-                done:true
-            }
-        ];
+    private loadTasks() {
+        let persistedTodos = JSON.parse(localStorage.getItem('tasks')) || this.fakeTasks();
+        this._tasks = persistedTodos;
     }
+
+    private updateStore() {
+        localStorage.setItem('tasks', JSON.stringify(this._tasks));
+    }
+
+    /*
+     * Utilites
+     */
 
     generateUUID() {
         var d = new Date().getTime();
@@ -123,4 +120,38 @@ export class TaskService {
         });
         return uuid;
     }
+
+    /*
+     * Dev methods
+     */
+
+    private fakeTasks() {
+        return [
+            {
+                id:     "LsdjLjdlskflsdf",
+                title:  "title1",
+                desc:   "desc1",
+                done:   true
+            },
+            {
+                id:     "LsdjLjdlskflsdf",
+                title:  "title1",
+                desc:   "desc1",
+                done:   true
+            },
+            {
+                id:     "LsdjLjdlskflsdf",
+                title:  "title1",
+                desc:   "desc1",
+                done:   true
+            },
+            {
+                id:     "LsdjLjdlskflsdf",
+                title:  "title1",
+                desc:   "desc1",
+                done:   true
+            }
+        ]
+    }
+
 }

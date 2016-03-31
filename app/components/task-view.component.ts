@@ -20,25 +20,25 @@ import readConfigFile = ts.readConfigFile;
     `
 })
 
-export class TaskView {
+export class TaskViewComponent {
     private task: ITask;
     constructor(@Inject(TaskService) private TaskService){
         TaskService.selectedTask.subscribe(newTask => this.task = newTask);
     }
 
     done(){
-        console.log("TaskView", " Done");
+        console.log("TaskViewComponent", " Done");
         this.TaskService.doneTask(this.task);
     }
 
     del(){
-        console.log("TaskView", " Delete");
+        console.log("TaskViewComponent", " Delete");
         this.TaskService.delTask(this.task);
         this.task = null;
     }
 
     unDone(){
-        console.log("TaskView", " UnDone");
+        console.log("TaskViewComponent", " UnDone");
         this.TaskService.unDoneTask(this.task);
     }
 

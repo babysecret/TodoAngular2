@@ -20,7 +20,7 @@ import {TaskService} from "../services/task.service";
     `
 })
 
-export class TodoList {
+export class TodoListComponent {
     private list = [];
     constructor(@Inject(TaskService) private TaskService){
         TaskService.tasks.subscribe(newList => this.list = newList);
@@ -28,7 +28,7 @@ export class TodoList {
     }
 
     select(task) {
-        console.log("TodoList", task);
+        console.log("TodoListComponent", task);
         this.TaskService.selectTask(task);
     }
 }
