@@ -5,9 +5,9 @@
 export class Task {
     constructor(
         public name: string = "",
-        public desc: string = "",
-        public done: boolean = false
+        public desc?: string = "",
+        public done?: boolean = false
     ) {
-
+        
     }
 }
