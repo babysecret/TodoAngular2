@@ -3,7 +3,7 @@
  */
 
 import {Component, Inject} from "angular2/core";
-import {TaskService} from "../services/task.service";
+import {TaskService, ITask} from "../services/task.service";
 
 @Component({
     selector:"new-task",
@@ -33,6 +33,8 @@ export class NewTask {
 
     add(){
         console.log("NewTask addClick!");
+        task: ITask;
+
         this.TaskService.addTask(null);
     }
 }

@@ -10,37 +10,21 @@ import {TaskService} from "../services/task.service";
     template: `
         <h2>todo list</h2>    
         <div class="list-group">
-          <a href="#" class="list-group-item active">First item</a>
-          <a href="#" class="list-group-item">Second item</a>
-          <a href="#" class="list-group-item">Third item</a>
-          <a href="#" class="list-group-item" *ngFor="#task of list" (click)="select(task)">
+          <a href="#" class="list-group-item" 
+                      *ngFor="#task of list" 
+                      (click)="select(task)">
             <i *ngIf="task.done" class="fa fa-check"></i>
-            {{task.name}}
+            {{task.title}}
           </a>
         </div>
     `
 })
 
 export class TodoList {
-    private list;
+    private list = [];
     constructor(@Inject(TaskService) private TaskService){
-        this.list = [
-            {
-                name:"Name1",
-                desc:"Desk3",
-                done:true
-            },
-            {
-                name:"Name1",
-                desc:"Desk7",
-                done:false
-            },
-            {
-                name:"Name1",
-                desc:"Desk2",
-                done:true
-            }
-        ];
+        TaskService.tasks.subscribe(newList => this.list = newList);
+        TaskService.fetch();
     }
 
     select(task) {

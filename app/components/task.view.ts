@@ -3,16 +3,16 @@
  */
 
 import {Component, Inject} from "angular2/core";
-import {TaskService} from "../services/task.service";
+import {TaskService, ITask} from "../services/task.service";
 
 @Component({
     selector:"task-view",
     template: `
         <div *ngIf="task">
             <h2>todo view</h2>
-            <h3>{{task.name}}</h3>
+            <h3>{{task.title}}</h3>
             <p>{{task.desc}}</p>
-            <button *ngIf="task.done" class="btn btn-success" (click)="unDone()">UnDone</button>
+            <button *ngIf="task.done" class="btn btn-default" (click)="unDone()">UnDone</button>
             <button *ngIf="!task.done" class="btn btn-success" (click)="done()">Done</button>
             <button class="btn btn-danger" (click)="del()">Delete</button>
         </div>
@@ -20,13 +20,9 @@ import {TaskService} from "../services/task.service";
 })
 
 export class TaskView {
-    private task: any;
+    private task: ITask;
     constructor(@Inject(TaskService) private TaskService){
         TaskService.selectedTask.subscribe(newTask => this.task = newTask);
-        // this.task = {
-        //     name:"Name",
-        //     desc:"Desk"
-        // }
     }
 
     done(){
@@ -37,10 +33,12 @@ export class TaskView {
     del(){
         console.log("TaskView", " Delete");
         this.TaskService.delTask(this.task);
+        this.task = null;
     }
 
     unDone(){
         console.log("TaskView", " UnDone");
+        this.TaskService.unDoneTask(this.task);
 
     }
 }
