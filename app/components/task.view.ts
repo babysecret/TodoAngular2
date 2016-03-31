@@ -8,11 +8,14 @@ import {TaskService} from "../services/task.service";
 @Component({
     selector:"task-view",
     template: `
-        <h2 *ngIf="task">todo view</h2>
-        <h3 *ngIf="task">{{task.name}}</h3>
-        <p *ngIf="task">{{task.desc}}</p>
-        <button class="btn btn-success" (click)="done()">Done</button>
-        <button class="btn btn-danger" (click)="del()">Delete</button>
+        <div *ngIf="task">
+            <h2>todo view</h2>
+            <h3>{{task.name}}</h3>
+            <p>{{task.desc}}</p>
+            <button *ngIf="task.done" class="btn btn-success" (click)="unDone()">UnDone</button>
+            <button *ngIf="!task.done" class="btn btn-success" (click)="done()">Done</button>
+            <button class="btn btn-danger" (click)="del()">Delete</button>
+        </div>
     `
 })
 
@@ -34,5 +37,10 @@ export class TaskView {
     del(){
         console.log("TaskView", " Delete");
         this.TaskService.delTask(this.task);
+    }
+
+    unDone(){
+        console.log("TaskView", " UnDone");
+
     }
 }
