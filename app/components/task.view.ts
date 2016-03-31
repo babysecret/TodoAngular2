@@ -4,6 +4,7 @@
 
 import {Component, Inject} from "angular2/core";
 import {TaskService, ITask} from "../services/task.service";
+import readConfigFile = ts.readConfigFile;
 
 @Component({
     selector:"task-view",
@@ -39,6 +40,7 @@ export class TaskView {
     unDone(){
         console.log("TaskView", " UnDone");
         this.TaskService.unDoneTask(this.task);
-
     }
+
+
 }

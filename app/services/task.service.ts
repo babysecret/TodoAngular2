@@ -9,16 +9,16 @@ import {Observable} from "rxjs/Observable";
 export interface ITask {
     id:     string;
     title:  string;
-    desc:   string;
+    desc?:  string;
     done:   boolean;
 }
 export class TaskService {
 
-    public tasks: Observable<ITask>;
+    public   tasks:         Observable<ITask>;
     private _tasksObserver: any;
-    private _tasks: ITask[];
+    private _tasks:         ITask[];
 
-    public selectedTask: Observable;
+    public   selectedTask:  Observable;
     private _selectedTaskObserver;
 
     constructor() {
@@ -39,9 +39,15 @@ export class TaskService {
         this._selectedTaskObserver.next(task);
     }
 
-    addTask(task: ITask) {
-        console.log("Service addTask", task);
-        this.tasks
+    addTask(title: string, desc: string = "") {
+        console.log("Service addTask", title, desc);
+        this._tasks.push({
+            id: this.generateUUID(),
+            title: title,
+            desc: desc,
+            done: false
+        });
+        this.fetch();
     }
 
     doneTask(task: ITask) {
@@ -56,6 +62,7 @@ export class TaskService {
     
     unDoneTask(task: ITask) {
         this.doneTask(task);
+
     }
 
     delTask(task: ITask) {
@@ -67,8 +74,21 @@ export class TaskService {
     }
 
     fetch(){
+        this.sort();
         this._tasksObserver.next(this._tasks);
     }
+
+    sort(){
+        this._tasks = this._tasks.sort((n1:Task, n2:Task) =>
+            (n1.done == n2.done)
+                ? (n1.title.toUpperCase() > n2.title.toUpperCase())
+                : n1.done
+        );
+    }
+
+    /*
+    Additional methods
+     */
 
     private fakeTasks() {
         this._tasks = [
@@ -91,5 +111,16 @@ export class TaskService {
                 done:true
             }
         ];
+    }
+
+    generateUUID() {
+        var d = new Date().getTime();
+
+        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+            var r = (d + Math.random()*16)%16 | 0;
+            d = Math.floor(d/16);
+            return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+        });
+        return uuid;
     }
 }
