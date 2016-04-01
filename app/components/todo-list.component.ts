@@ -22,6 +22,7 @@ import {TaskService} from "../services/task.service";
 
 export class TodoListComponent {
     private list = [];
+    getList = () => this.list;
     constructor(@Inject(TaskService) private TaskService){
         TaskService.tasks.subscribe(newList => this.list = newList);
         TaskService.update();

@@ -6,21 +6,14 @@ import {Observable} from "rxjs/Observable";
 import {Task} from "../models/Task";
 
 @Injectable()
-
-export interface ITask {
-    id:     string;
-    title:  string;
-    desc?:  string;
-    done:   boolean;
-}
-
 export class TaskService {
 
-    public   tasks:         Observable<ITask>;
+    public   tasks:         Observable<Task>;
     private _tasksObserver: any;
-    private _tasks:         ITask[];
+    private _tasks:         Task[];
+    public getTasks = () => this._tasks;
 
-    public   selectedTask:  Observable;
+    public   selectedTask:  Observable<Task>;
     private _selectedTaskObserver;
 
     constructor() {
@@ -38,25 +31,20 @@ export class TaskService {
         );
     }
 
-    selectTask(task: ITask) {
+    selectTask(task: Task) {
         console.log("Service", task);
         this._selectedTaskObserver.next(task);
     }
 
     addTask(title: string, desc: string = "") {
         console.log("Service addTask", title, desc);
-        this._tasks.push({
-            id: this.generateUUID(),
-            title: title,
-            desc: desc,
-            done: false
-        });
+        this._tasks.push(new Task(title, desc));
         this.update();
     }
 
-    doneTask(task: ITask) {
+    doneTask(task: Task) {
         console.log("Service doneTask", task);
-        this._tasks.forEach((obj: ITask, i) => {
+        this._tasks.forEach((obj: Task, i) => {
             if(task == obj) {
                 this._tasks[i].done = !obj.done;
             }
@@ -64,21 +52,19 @@ export class TaskService {
         this.update();
     }
 
-    unDoneTask(task: ITask) {
+    unDoneTask(task: Task) {
         this.doneTask(task);
 
     }
 
-    delTask(task: ITask) {
+    delTask(task: Task) {
         console.log("Service delTask", task);
-        this._tasks = this._tasks.filter((obj:ITask) => {
+        this._tasks = this._tasks.filter((obj:Task) => {
             return (task != obj)
         });
         this.update();
     }
-    /*
-     *
-     */
+
     update(){
         this.sort();
         this.updateStore();
@@ -104,21 +90,6 @@ export class TaskService {
 
     private updateStore() {
         localStorage.setItem('tasks', JSON.stringify(this._tasks));
-    }
-
-    /*
-     * Utilites
-     */
-
-    generateUUID() {
-        var d = new Date().getTime();
-
-        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-            var r = (d + Math.random()*16)%16 | 0;
-            d = Math.floor(d/16);
-            return (c=='x' ? r : (r&0x3|0x8)).toString(16);
-        });
-        return uuid;
     }
 
     /*

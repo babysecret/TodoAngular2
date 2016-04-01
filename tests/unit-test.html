@@ -2,36 +2,45 @@
 
 <head>
   <title>testing ng2 apps with jasmine</title>
-  <link rel="stylesheet" href="/node_modules/jasmine-core/lib/jasmine-core/jasmine.css">
+  <link rel="stylesheet" href="../node_modules/jasmine-core/lib/jasmine-core/jasmine.css">
   <!-- Jasmine Scripts -->
-  <script src="/node_modules/jasmine-core/lib/jasmine-core/jasmine.js"></script>
-  <script src="/node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
+  <script src="../node_modules/jasmine-core/lib/jasmine-core/jasmine.js"></script>
+  <script src="../node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
   <!-- Jasine's main.js has recently be renamed to boot.js -->
-  <script src="/node_modules/jasmine-core/lib/jasmine-core/boot.js"></script>
+  <script src="../node_modules/jasmine-core/lib/jasmine-core/boot.js"></script>
   <!-- Common dependencies for ng2 -->
-  <script src="/node_modules/es6-shim/es6-shim.min.js"></script>
-  <script src="/node_modules/systemjs/dist/system-polyfills.js"></script>
-  <script src="/node_modules/angular2/bundles/angular2-polyfills.js"></script>
-  <script src="/node_modules/systemjs/dist/system.src.js"></script>
-  <script src="/node_modules/rxjs/bundles/Rx.js"></script>
-  <script src="/node_modules/angular2/bundles/angular2.dev.js"></script>
-  <script src="/node_modules/angular2/bundles/router.js"></script>
+  <script src="../node_modules/es6-shim/es6-shim.min.js"></script>
+  <script src="../node_modules/systemjs/dist/system-polyfills.js"></script>
+  <script src="../node_modules/angular2/bundles/angular2-polyfills.js"></script>
+  <script src="../node_modules/systemjs/dist/system.src.js"></script>
+  <script src="../node_modules/rxjs/bundles/Rx.js"></script>
+  <script src="../node_modules/angular2/bundles/angular2.dev.js"></script>
+  <script src="../node_modules/angular2/bundles/router.js"></script>
   <!-- Import ng2 testing -->
   <script src="/node_modules/angular2/bundles/testing.dev.js"></script>
 </head>
 
 <body>
 <script>
+
+//  System.defaultJSExtensions = true;
   System.config({
     packages: {
       'app': {
         defaultExtension: 'js'
       }
+    },
+    defaultJSExtensions: true,
+    map: {
+      "angular2": "../node_modules/angular2",
+      "rxjs": "../node_modules/rxjs"
     }
   });
-  System.import('1st.spec.js')
+//  System.defaultJSExtensions = true;
+  System.import('todo-app.spec')
           .then(window.onload)
           .catch(console.error.bind(console));
+
 </script>
 </body>
 </html>

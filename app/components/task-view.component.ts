@@ -3,8 +3,7 @@
  */
 
 import {Component, Inject} from "angular2/core";
-import {TaskService, ITask} from "../services/task.service";
-import readConfigFile = ts.readConfigFile;
+import {TaskService} from "../services/task.service";
 
 @Component({
     selector:"task-view",
@@ -21,7 +20,7 @@ import readConfigFile = ts.readConfigFile;
 })
 
 export class TaskViewComponent {
-    private task: ITask;
+    private task: Task;
     constructor(@Inject(TaskService) private TaskService){
         TaskService.selectedTask.subscribe(newTask => this.task = newTask);
     }

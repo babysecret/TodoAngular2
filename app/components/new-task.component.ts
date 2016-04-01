@@ -44,7 +44,7 @@ export class NewTask {
 
     constructor(@Inject(TaskService) private TaskService){}
 
-    add(){
+    add() {
         console.log("NewTask addClick!");
         this.TaskService.addTask(this.task.title, this.task.desc);
         this.task = new Task();

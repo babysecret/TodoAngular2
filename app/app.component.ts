@@ -25,6 +25,7 @@ import {NewTask} from "./components/new-task.component";
 })
 
 export class TodoAppComponent {
+    items = [];
     constructor() {
 
     }
